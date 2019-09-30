@@ -5,14 +5,14 @@ defmodule B2Destillator.Operations.B2GetUploadUrl do
   ## PUBLIC API
   ####################################
   @typedoc """
-  The upload_error contains one of the following errors:
+  The upload_url_error contains one of the following errors:
   - :bad_request_url
   - :unauthorized_url
   - :bad_auth_token
   - :expired_auth_token
   - :service_unavailable
   """
-  @type upload_error :: :bad_request_url | :unauthorized_url | :bad_auth_token | :expired_auth_token | :service_unavailable
+  @type upload_url_error :: :bad_request_url | :unauthorized_url | :bad_auth_token | :expired_auth_token | :service_unavailable
   @doc """
   Requests the upload URL from Backblaze
 
@@ -21,8 +21,12 @@ defmodule B2Destillator.Operations.B2GetUploadUrl do
   - bucket_id: The bucketID the files should be uploaded to __-> Get this one from b2_list_buckets__
   - api_url: The API_URL __-> Get this one from b2_authorize_account__
   - auth_token: Your auth_token __-> Get this one from b2_authorize_account__
+
+  ## Returns
+  - upload_url_error: {:error, upload_url_error}
+  - Touple with a Map in it: {:ok, %{...}}
   """
-  @spec get_upload_url(bucket_id :: String.t, api_url :: String.t, auth_token :: String.t) :: {:error, :upload_error}| {:ok, %{authorization_token: any, bucket_id: any, upload_url: any}}
+  @spec get_upload_url(bucket_id :: String.t, api_url :: String.t, auth_token :: String.t) :: {:error, :upload_url_error}| {:ok, %{authorization_token: any, bucket_id: any, upload_url: any}}
   def get_upload_url(bucket_id, api_url, auth_token) do
     get_upload_url_p(bucket_id, api_url, auth_token)
   end

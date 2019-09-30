@@ -13,7 +13,21 @@ defmodule B2Destillator.Operations.B2UploadFile do
   - :upload_init_error
   """
   @type upload_error :: :bad_request | :unauthorized | :cap_exceeded | :you_pleb | :request_timeout | :upload_init_error
+  @doc """
+  Uploads a single file to Backblaze
 
+  ## Params
+
+  - url: The upload url
+  - file_content: Binary file content
+  - auth_token: The auth_token
+  - file_name: Filename AND __extension__ of the file it should be called in the Backblaze B2
+  - sha1: The encoded _file_content_ to base16 formatted to uppercase string
+
+  ## Returns
+  - upload_error: {:error, upload_error}
+  - Touple with a Map in it: {:ok, %{...}}
+  """
   @spec upload_file(url :: String.t, file_content :: String.t, auth_token :: String.t, file_name :: String.t, sha1 :: String.t) :: {:ok, %{file_id: String.t, file_name: String.t, account_id: String.t, bucketId: String.t, content_length: String.t, content_sha1: String.t, content_type: String.t, author: String.t}} | {:error, :upload_error}
   def upload_file(url, file_content, auth_token, file_name, sha1) do
     upload_file_p(url, file_content, auth_token, file_name, sha1)
