@@ -26,7 +26,7 @@ defmodule B2Destillator.Operations.B2AuthorizeAccount do
   - authorization_error: {:error, authorization_error}
   - Touple with a Map in it: {:ok, %{...}}
   """
-  @spec authorize_account(app_key :: String.t, app_key_id :: String.t) :: {:ok, %{absolute_minimum_part_size: String.t, account_id: String.t, api_url: String.t, authorization_token: String.t, download_url: String.t, recommended_part_size: String.t, bucket_id: String.t, bucket_name: String.t, capabilities: [String.t], name_prefix: STring.t}} | {:error, authorization_error}
+  @spec authorize_account(app_key :: String.t, app_key_id :: String.t) :: {:ok, %{absolute_minimum_part_size: String.t, account_id: String.t, api_url: String.t, authorization_token: String.t, download_url: String.t, recommended_part_size: String.t, bucket_id: String.t, bucket_name: String.t, capabilities: [String.t], name_prefix: STring.t}} | {:error, :authorization_error}
   def authorize_account(app_key, app_key_id) do
     authorize_account_p(app_key, app_key_id)
   end
