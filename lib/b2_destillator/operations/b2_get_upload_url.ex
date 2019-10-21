@@ -26,7 +26,7 @@ defmodule B2Destillator.Operations.B2GetUploadUrl do
   - upload_url_error: {:error, upload_url_error}
   - Touple with a Map in it: {:ok, %{...}}
   """
-  @spec get_upload_url(bucket_id :: String.t, api_url :: String.t, auth_token :: String.t) :: {:error, :upload_url_error}| {:ok, %{authorization_token: any, bucket_id: any, upload_url: any}}
+  @spec get_upload_url(bucket_id :: String.t, api_url :: String.t, auth_token :: String.t) :: {:error, :upload_url_error}| {:ok, %{authorization_token: String.t, bucket_id: String.t, upload_url: String.t}}
   def get_upload_url(bucket_id, api_url, auth_token) do
     get_upload_url_p(bucket_id, api_url, auth_token)
   end

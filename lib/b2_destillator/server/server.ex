@@ -25,12 +25,63 @@ defmodule B2Destillator.Server.Server do
   """
   @spec b2_authorize_account(app_key :: String.t, app_key_id :: String.t) :: {:ok, %{absolute_minimum_part_size: String.t, account_id: String.t, api_url: String.t, authorization_token: String.t, download_url: String.t, recommended_part_size: String.t, bucket_id: String.t, bucket_name: String.t, capabilities: [String.t], name_prefix: STring.t}} | {:error, :authorization_error}
   def b2_authorize_account(app_key, app_key_id) do
-    return = B2Destillator.Operations.B2AuthorizeAccount.authorize_account(app_key, app_key_id)
-    case return do
+    case B2Destillator.Operations.B2AuthorizeAccount.authorize_account(app_key, app_key_id) do
       {:ok, returns} ->
         insert_in_ets(:b2_authorize_account, returns)
       {:error, error} ->
-        {:error, :retreival_error}
+        {:error, error}
+    end
+  end
+
+  @doc """
+  Copies a file from one bucket to another or to another/the same folder in the bucket itself
+
+  ## Parameters
+  - api_url: The API Url __-> Get this one from b2_authorize_account__
+  - source_fiel_id: The file that should be copied
+  - destination_bucket_id: The bucket that the file should be copied into. If it's the same, doesn't matter.
+  - file_name: The name of your copied file
+  - range: The range of bytes to copy
+  - metadata_directive:  Strategy for how to populate metadata for the new file. If used, _content_type_ and _file_info_ cannot be used.
+  - content_type: Only use if the _metadata_directive_ is _REPLACE_. Sets a new contentType
+  - file_info: Only use if the _metadata_directive_ is _REPLACE_. Sets the new fileinfo
+  - auth_token: Your auth_token __-> Get this one from b2_authorize_account__
+
+  ## Returns
+  - copy_file_error: {:error, :copy_file_error}
+  - Touple with a Map in it: {:ok, %{...}}
+  """
+  @spec copy_file(api_url :: String.t, source_file_id :: String.t, auth_token :: String.t, file_name :: String.t, destination_bucket_id :: String.t | none() | atom(), range :: String.t | none() | atom(), metadata_directive :: String.t | none() | atom(), content_type :: String.t | none() | atom(), file_info :: String.t | none() | atom()) :: {:ok, %{account_id: String.t,action: String.t, bucket_id: String.t, content_type: String.t, content_sha1: String.t, content_length: String.t, field_id: String.t, src_last_modified_milis: String.t, file_name: String.t, upload_time_stamp: String.t}} | {:error, :copy_file_error}
+  def b2_copy_file() do
+    case B2Destillator.Operations.B2CopyFile do
+      {:ok, returns} ->
+        insert_in_ets(:b2_copy_file, returns)
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
+  @doc """
+  Requests the upload URL from BackblazeB2
+
+  ## Parameters
+
+  - bucket_id: The bucketID the files should be uploaded to __-> Get this one from b2_list_buckets__
+  - api_url: The API_URL __-> Get this one from b2_authorize_account__
+  - auth_token: Your auth_token __-> Get this one from b2_authorize_account__
+
+  ## Returns
+  - upload_url_error: {:error, upload_url_error}
+  - Touple with a Map in it: {:ok, %{...}}
+
+  """
+  @spec get_upload_url(bucket_id :: String.t, api_url :: String.t, auth_token :: String.t) :: {:error, :upload_url_error}| {:ok, %{authorization_token: String.t, bucket_id: String.t, upload_url: String.t}}
+  def b2_get_upload_url(bucket_id, api_url, auth_token) do
+    case B2Destillator.Operations.B2GetUploadUrl do
+      {:ok, returns} ->
+        insert_in_ets(:b2_get_upload_url, returns)
+      {:error, error} ->
+        {:error, error}
     end
   end
 
