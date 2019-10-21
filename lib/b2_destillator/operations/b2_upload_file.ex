@@ -20,7 +20,7 @@ defmodule B2Destillator.Operations.B2UploadFile do
 
   - url: The upload url
   - file_content: Binary file content
-  - auth_token: The auth_token
+  - auth_token: Your auth_token __-> Get this one from b2_authorize_account__
   - file_name: Filename AND __extension__ of the file it should be called in the Backblaze B2
   - sha1: The encoded _file_content_ to base16 formatted to uppercase string
 
